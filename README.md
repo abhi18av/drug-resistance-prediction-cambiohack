@@ -6,13 +6,16 @@ Predicting drug resistance using Machine Learning
 ## Overview of process
 
 
-1. Download and prepare the variant calling and drug resistance results
+1. Download and prepare the variant calling and drug resistance results - DONE
 
-2. Download all `VCF` files for samples
+2. Download all `VCF` files for samples - DONE
+ 
+3. Download results of `tb-profiler` for these samples - DONE
 
-3. Download results of `tb-profiler` for these samples
+4. Syncronize these files as per common genome IDs - DONE
 
-4. Syncronize these files as per common genome IDs
+You can get the results of this stage through this link
+https://1drv.ms/u/s!AtDyzJXLzSCVgaBRAOeffZf3Zi6QtA?e=bwp8P5
 
 5. Filter out SNP from the `synced VCFs`
 
