@@ -3,6 +3,13 @@
 Predicting drug resistance using Machine Learning
 
 
+## Contribution ides
+
+I've documented some ideas here 
+
+https://github.com/abhi18av/drug-resistance-prediction-cambiohack/projects/1
+
+
 ## Overview of process
 
 
@@ -15,7 +22,9 @@ Predicting drug resistance using Machine Learning
 4. Syncronize these files as per common genome IDs - DONE
 
 You can get the results of this stage through this link
+
 https://1drv.ms/u/s!AtDyzJXLzSCVgaBRAOeffZf3Zi6QtA?e=bwp8P5
+
 
 5. Filter out SNP from the `synced VCFs`
 
