@@ -68,8 +68,8 @@ gatk SelectVariants \
 
 gatk VariantFiltration \
         -R NC000962_3.fasta \
-        -V ERR751355.snps.vcf \
-        -O ERR751355.filter.snps.vcf \
+        -V cohort.snps.vcf \
+        -O cohort.filter.snps.vcf \
         -filter-name "QD_filter" -filter "QD < 2.0" \
         -filter-name "FS_filter" -filter "FS > 60.0" \
         -filter-name "MQ_filter" -filter "MQ < 40.0" \
@@ -104,8 +104,8 @@ gatk VariantFiltration \
 
 gatk SelectVariants \
         --exclude-filtered \
-        -V ERR751355.filter.snps.vcf \
-        -O ERR751355.bqsr.filter.snps.vcf
+        -V cohort.filter.snps.vcf \
+        -O cohort.bqsr.filter.snps.vcf
 
 
 gatk SelectVariants \

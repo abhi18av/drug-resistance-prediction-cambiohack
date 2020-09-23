@@ -4,4 +4,5 @@
 tmp/
 
 _resources
+_scratch/*vcf
 .idea
