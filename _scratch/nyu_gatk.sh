@@ -42,18 +42,27 @@ gatk HaplotypeCaller \
         -ERC GVCF
 
 
+gatk CombineGVCFs -R NC000962_3.fasta \
+      --variant ERR751350.g.vcf \
+      --variant ERR751351.g.vcf \
+      -O cohort.g.vcf
+
+gatk --java-options "-Xmx4g" GenotypeGVCFs \
+   -R NC000962_3.fasta \
+   -V cohort.g.vcf  \
+   -O cohort.vcf
+
 gatk SelectVariants \
 		-R NC000962_3.fasta \
 		-V ERR751355.vcf \
 		--select-type-to-include INDEL \
 		-O ERR751355.indels.vcf
 
-gatk SelectVariants \
-		-R NC000962_3.fasta \
-		-V ERR751355.vcf \
-		--select-type-to-include SNP \
-		-O ERR751355.snps.vcf
-
+#gatk SelectVariants \
+#		-R NC000962_3.fasta \
+#        --select-type-to-include SNP \
+#		-V ERR751397.g.vcf \
+#		-O ERR751397.snps.g.vcf
 
 
 
@@ -67,6 +76,20 @@ gatk VariantFiltration \
         -filter-name "SOR_filter" -filter "SOR > 4.0" \
         -filter-name "MQRankSum_filter" -filter "MQRankSum < -12.5" \
         -filter-name "ReadPosRankSum_filter" -filter "ReadPosRankSum < -8.0"
+
+
+
+gatk VariantFiltration \
+        -R NC000962_3.fasta \
+        -V cohort.g.vcf \
+        -O ERR751355.filter.g.vcf \
+        -filter-name "QD_filter" -filter "QD < 2.0" \
+        -filter-name "FS_filter" -filter "FS > 60.0" \
+        -filter-name "MQ_filter" -filter "MQ < 40.0" \
+        -filter-name "SOR_filter" -filter "SOR > 4.0" \
+        -filter-name "MQRankSum_filter" -filter "MQRankSum < -12.5" \
+        -filter-name "ReadPosRankSum_filter" -filter "ReadPosRankSum < -8.0"
+
 
 
 
@@ -164,4 +187,8 @@ gatk VariantFiltration \
         -filter-name "SOR_filter" -filter "SOR > 10.0" 
 
 snpEff -v Mycobacterium_tuberculosis_h37rv \
-        ERR751355.snps.final.vcf > ERR751355.ann.snps.final.vcf 
+        ERR751355.snps.final.vcf > ERR751355.ann.snps.final.vcf
+
+
+# count homozygous and heterozygous samples
+plink2 --vcf ERR751350.snps.vcf --sample-counts cols=hom,het --allow-extra-chr
