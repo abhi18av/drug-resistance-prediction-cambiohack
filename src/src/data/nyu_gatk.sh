@@ -192,3 +192,5 @@ snpEff -v Mycobacterium_tuberculosis_h37rv \
 
 # count homozygous and heterozygous samples
 plink2 --vcf ERR751350.snps.vcf --sample-counts cols=hom,het --allow-extra-chr
+
+gatk VariantsToTable -V cohort.bqsr.filter.snps.vcf -F CHROM -F POS -GF GT -O cohort.bqsr.filter.snps.tsv
