@@ -68,8 +68,8 @@ gatk SelectVariants \
 
 gatk VariantFiltration \
         -R NC000962_3.fasta \
-        -V cohort.snps.vcf \
-        -O cohort.filter.snps.vcf \
+        -V cohort.indels_and_snps.vcf \
+        -O cohort.indels_and_snps.filter.snps.vcf \
         -filter-name "QD_filter" -filter "QD < 2.0" \
         -filter-name "FS_filter" -filter "FS > 60.0" \
         -filter-name "MQ_filter" -filter "MQ < 40.0" \
@@ -95,8 +95,8 @@ gatk VariantFiltration \
 
 gatk VariantFiltration \
         -R NC000962_3.fasta \
-        -V ERR751355.indels.vcf \
-        -O ERR751355.filter.indels.vcf \
+        -V cohort.indels_and_snps.head.vcf \
+        -O cohort.filter.snps.indels.vcf \
         -filter-name "QD_filter" -filter "QD < 2.0" \
         -filter-name "FS_filter" -filter "FS > 200.0" \
         -filter-name "SOR_filter" -filter "SOR > 10.0"
@@ -104,8 +104,8 @@ gatk VariantFiltration \
 
 gatk SelectVariants \
         --exclude-filtered \
-        -V cohort.filter.snps.vcf \
-        -O cohort.bqsr.filter.snps.vcf
+        -V cohort.filter.snps.indels.head.vcf \
+        -O cohort.bqsr.filter.snps.indels.vcf
 
 
 gatk SelectVariants \
@@ -193,4 +193,13 @@ snpEff -v Mycobacterium_tuberculosis_h37rv \
 # count homozygous and heterozygous samples
 plink2 --vcf ERR751350.snps.vcf --sample-counts cols=hom,het --allow-extra-chr
 
-gatk VariantsToTable -V cohort.bqsr.filter.snps.vcf -F CHROM -F POS -GF GT -O cohort.bqsr.filter.snps.tsv
+gatk VariantsToTable \
+        -V cohort.bqsr.filter.snps.indels.head.vcf \
+        -F CHROM \
+        -F POS \
+        -F TYPE \
+        -F HET \
+        -F HOM-REF \
+        -F HET-REF \
+        -GF GT \
+        -O cohort.bqsr.filter.snps.indels.tsv
