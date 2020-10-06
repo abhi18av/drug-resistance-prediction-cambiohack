@@ -78,25 +78,10 @@ gatk VariantFiltration \
         -filter-name "ReadPosRankSum_filter" -filter "ReadPosRankSum < -8.0"
 
 
-
 gatk VariantFiltration \
         -R NC000962_3.fasta \
-        -V cohort.g.vcf \
-        -O ERR751355.filter.g.vcf \
-        -filter-name "QD_filter" -filter "QD < 2.0" \
-        -filter-name "FS_filter" -filter "FS > 60.0" \
-        -filter-name "MQ_filter" -filter "MQ < 40.0" \
-        -filter-name "SOR_filter" -filter "SOR > 4.0" \
-        -filter-name "MQRankSum_filter" -filter "MQRankSum < -12.5" \
-        -filter-name "ReadPosRankSum_filter" -filter "ReadPosRankSum < -8.0"
-
-
-
-
-gatk VariantFiltration \
-        -R NC000962_3.fasta \
-        -V cohort.indels_and_snps.head.vcf \
-        -O cohort.filter.snps.indels.vcf \
+        -V cohort.indels_and_snps.filter.snps.vcf \
+        -O cohort.indels_and_snps.filter.snps.indels.vcf \
         -filter-name "QD_filter" -filter "QD < 2.0" \
         -filter-name "FS_filter" -filter "FS > 200.0" \
         -filter-name "SOR_filter" -filter "SOR > 10.0"
@@ -104,14 +89,8 @@ gatk VariantFiltration \
 
 gatk SelectVariants \
         --exclude-filtered \
-        -V cohort.filter.snps.indels.head.vcf \
+        -V cohort.indels_and_snps.filter.snps.indels.vcf \
         -O cohort.bqsr.filter.snps.indels.vcf
-
-
-gatk SelectVariants \
-        --exclude-filtered \
-        -V ERR751355.filter.indels.vcf \
-        -O ERR751355.bqsr.filter.indels.vcf
 
 
 gatk BaseRecalibrator \
@@ -194,7 +173,7 @@ snpEff -v Mycobacterium_tuberculosis_h37rv \
 plink2 --vcf ERR751350.snps.vcf --sample-counts cols=hom,het --allow-extra-chr
 
 gatk VariantsToTable \
-        -V cohort.bqsr.filter.snps.indels.head.vcf \
+        -V cohort.bqsr.filter.snps.indels.vcf \
         -F CHROM \
         -F POS \
         -F TYPE \
@@ -202,4 +181,5 @@ gatk VariantsToTable \
         -F HOM-REF \
         -F HET-REF \
         -GF GT \
+#        -SMA \
         -O cohort.bqsr.filter.snps.indels.tsv
